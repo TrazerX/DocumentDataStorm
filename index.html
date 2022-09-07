@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="None">
+    
+    
+    <link rel="shortcut icon" href="./img/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <title>Datastorm Documentation</title>
+    <link href="./css/bootstrap-3.3.7.min.css" rel="stylesheet">
+    <link href="./css/font-awesome-4.7.0.css" rel="stylesheet">
+    <link href="./css/base.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/highlight.css">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+
+    <script src="./js/jquery-3.2.1.min.js"></script>
+    <script src="./js/bootstrap-3.3.7.min.js"></script>
+    <script src="./js/highlight.pack.js"></script>
+    
+      <script src="./js/elasticlunr.min.js"></script>
+    
+    <base target="_top">
+    <script>
+      var base_url = '.';
+      var is_top_frame = (window === window.parent);
+        
+        var pageToc = [
+          {title: "Welcome to Datastorm Engine", url: "#_top", children: [
+              {title: "Installation and building", url: "#installation-and-building" },
+              {title: "How to make a game?", url: "#how-to-make-a-game" },
+          ]},
+        ];
+
+    </script>
+    <script src="./js/base.js"></script>
+      <script src="search/main.js"></script> 
+</head>
+
+<body>
+<script>
+if (is_top_frame) { $('body').addClass('wm-top-page'); }
+</script>
+
+<nav class="navbar wm-page-top-frame">
+  <div class="container-fluid wm-top-container">
+    
+    <div class="wm-top-tool pull-right wm-vcenter">
+      <form class="dropdown wm-vcentered" id="wm-search-form" action="./search.html">
+        
+        <button id="wm-search-show" class="btn btn-sm btn-default" type="submit"
+          ><i class="fa fa-search" aria-hidden="true"></i></button>
+
+        <div class="input-group input-group-sm wm-top-search">
+          <input type="text" name="q" class="form-control" id="mkdocs-search-query" placeholder="Search" autocomplete="off">
+          <span class="input-group-btn" role="search">
+            
+            <button class="btn btn-default dropdown-toggle collapse" data-toggle="dropdown" type="button"><span class="caret"></span></button>
+            <ul id="mkdocs-search-results" class="dropdown-menu dropdown-menu-right"></ul>
+            <button id="wm-search-go" class="btn btn-default" type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+          </span>
+        </div>
+      </form>
+    </div>
+
+    
+    <div class="wm-top-tool wm-vcenter pull-right wm-small-left">
+      <button id="wm-toc-button" type="button" class="btn btn-sm btn-default wm-vcentered"><i class="fa fa-th-list" aria-hidden="true"></i></button>
+    </div>
+
+    
+    
+
+    
+    <a href="" class="wm-top-brand wm-top-link wm-vcenter">
+      
+      <div class="wm-top-title">
+        Datastorm Documentation<br>
+        
+      </div>
+    </a>
+  </div>
+</nav>
+
+  <div id="main-content" class="wm-page-top-frame">
+    
+<nav class="wm-toc-pane">
+  
+  <ul class="wm-toctree">
+        <li class="wm-toc-li wm-toc-lev1 "><a href="" class="wm-article-link wm-toc-text">Welcome to Datastorm Engine</a>
+</li>
+  </ul>
+</nav>
+
+    <div class="wm-content-pane">
+      <iframe class="wm-article" name="article"></iframe>
+    </div>
+  </div>
+
+<div class="container-fluid wm-page-content">
+  <a name="_top"></a>
+    
+
+    
+
+    <h1 id="welcome-to-datastorm-engine">Welcome to Datastorm Engine</h1>
+<h2 id="installation-and-building">Installation and building</h2>
+<ul>
+<li>Install the engine from <code>https://github.com/TrazerX/Datastorm-Engine</code>.</li>
+<li>Open the <code>DatastormEngine.sln</code> file.</li>
+<li>Build the engine.</li>
+</ul>
+<h2 id="how-to-make-a-game">How to make a game?</h2>
+<p>To make a game you need to make it in AppWindow class (It is the main game).
+AppWindow.cpp has a default app in it.</p>
+<p>There is objects in OnCreate() function which as m_mesh, m_sky_mesh and m_plane_mesh.
+You can add a mesh by adding MeshPtr to AppWindow.h or you can delete them in onCreate() function.</p>
+<p>AppWindow.h</p>
+<pre><code>...
+private:
+MeshPtr m_mesh;
+</code></pre>
+<p>AppWindow.cpp OnCreate()</p>
+<pre><code>Window::onCreate();
+{
+    InputSystem::get()-&gt;addListener(this);
+
+    m_play_state = true;
+    InputSystem::get()-&gt;showCursor(false);
+
+    //Texture
+    m_wall_tex = GraphicsEngine::get()-&gt;getTextureManager()-&gt;createTextureFromFile(L&quot;..\\Assets\\Textures\\wall.jpg&quot;);
+
+    m_mesh = GraphicsEngine::get()-&gt;getMeshManager()-&gt;createMeshFromFile(L&quot;..\\Assets\\Meshes\\sphere.obj&quot;);
+
+    RECT rc = this-&gt;getClientWindowRect();
+    m_swap_chain = GraphicsEngine::get()-&gt;getRenderSystem()-&gt;createSwapChain(this-&gt;m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
+
+    m_world_cam.setTranslation(Vector3D(0, 0, -1));
+
+    m_mat = GraphicsEngine::get()-&gt;createMaterial(L&quot;PointLightVertexShader.hlsl&quot;, L&quot;PointLightPixelShader.hlsl&quot;);
+    m_mat-&gt;addTexture(m_wall_tex);
+    m_mat-&gt;setCullMode(CULL_MODE_BACK);
+
+    m_world_cam.setTranslation(Vector3D(0, 0, -2));
+}
+</code></pre>
+<p>We will talk about m_wall_tex and m_mat later.</p>
+<p>You can create textures by adding TexturePtr to AppWindow.h or you can delete them like Meshes.</p>
+<p>AppWindow.h</p>
+<pre><code>...
+private:
+TexturePtr m_wall_tex;
+</code></pre>
+<p>AppWindow.cpp OnCreate()</p>
+<pre><code>...
+m_wall_tex = GraphicsEngine::get()-&gt;getTextureManager()-&gt;createTextureFromFile(L&quot;..\\Assets\\Textures\\wall.jpg&quot;);
+</code></pre>
+<p>You can delete or add material to AppWindow.h script then use them in onCreate() function.
+Here is the example:</p>
+<p>AppWindow.h</p>
+<pre><code>...
+private:
+MaterialPtr m_mat;
+</code></pre>
+<p>AppWindow.cpp</p>
+<pre><code>m_mat = GraphicsEngine::get()-&gt;createMaterial(L&quot;PointLightVertexShader.hlsl&quot;, L&quot;PointLightPixelShader.hlsl&quot;);
+m_mat-&gt;addTexture(m_wall_tex);
+m_mat-&gt;setCullMode(CULL_MODE_BACK); 
+...
+</code></pre>
+<p>Now to render the model. We need to use updateModel() function and drawMesh() in AppWindow::render() function</p>
+<p>AppWindow.cpp</p>
+<pre><code>...
+void AppWindow::render()
+{
+    //CLEAR THE RENDER TARGET 
+    GraphicsEngine::get()-&gt;getRenderSystem()-&gt;getImmediateDeviceContext()-&gt;clearRenderTargetColor(this-&gt;m_swap_chain,
+        0, 0.3f, 0.4f, 1);
+    //SET VIEWPORT OF RENDER TARGET IN WHICH WE HAVE TO DRAW
+    RECT rc = this-&gt;getClientWindowRect();
+    GraphicsEngine::get()-&gt;getRenderSystem()-&gt;getImmediateDeviceContext()-&gt;setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+
+
+
+    //COMPUTE TRANSFORM MATRICES
+    update();
+
+    //RENDER THE MODEL
+    updateModel(Vector3D(0, -1, 1), m_mat);
+    drawMesh(m_plane_mesh, m_mat);
+
+
+    //REFRESH WITH TIME
+    m_swap_chain-&gt;present(true);
+
+
+    m_old_delta = m_new_delta;
+    m_new_delta = ::GetTickCount();
+
+    m_delta_time = (m_old_delta) ? ((m_new_delta - m_old_delta) / 1000.0f) : 0;
+    m_time += m_delta_time;
+}
+</code></pre>
+<p>So it should be like this.</p>
+<p>AppWindow.h</p>
+<pre><code>#pragma once
+#include &quot;Window.h&quot;
+#include &quot;GraphicsEngine.h&quot;
+#include &quot;SwapChain.h&quot;
+#include &quot;DeviceContext.h&quot;
+#include &quot;VertexBuffer.h&quot;
+#include &quot;IndexBuffer.h&quot;
+#include &quot;ConstantBuffer.h&quot;
+#include &quot;VertexShader.h&quot;
+#include &quot;PixelShader.h&quot;
+#include &quot;InputListener.h&quot;
+#include &quot;Matrix4x4.h&quot;
+
+
+class AppWindow : public Window, public InputListener
+{
+public:
+    AppWindow();
+    ~AppWindow();
+
+    // Inherited via Window
+    virtual void onCreate() override;
+    virtual void onUpdate() override;
+    virtual void onDestroy() override;
+    virtual void onFocus() override;
+    virtual void onKillFocus() override;
+    virtual void onSize() override;
+
+
+    // Inherited via InputListener
+    virtual void onKeyDown(int key) override;
+    virtual void onKeyUp(int key) override;
+    virtual void onMouseMove(const Point&amp; mouse_pos) override;
+
+    virtual void onLeftMouseDown(const Point&amp; mouse_pos) override;
+    virtual void onLeftMouseUp(const Point&amp; mouse_pos) override;
+    virtual void onRightMouseDown(const Point&amp; mouse_pos) override;
+    virtual void onRightMouseUp(const Point&amp; mouse_pos) override;
+public:
+    void render();
+    void update();
+    void updateModel(Vector3D position, const MaterialPtr&amp; material);
+    void updateCamera();
+    void updateSkyBox();
+    void updateLight();
+
+    void drawMesh(const MeshPtr&amp; mesh, MaterialPtr&amp; material);
+
+private:
+    SwapChainPtr m_swap_chain;
+    VertexShaderPtr m_vs;
+    PixelShaderPtr m_ps;
+    PixelShaderPtr m_sky_ps;
+    ConstantBufferPtr m_cb;
+    ConstantBufferPtr m_sky_cb;
+
+    TexturePtr m_wall_tex;
+
+    MeshPtr m_mesh;
+
+    MaterialPtr m_mat;
+private:
+    long m_old_delta;
+    long m_new_delta;
+    float m_delta_time;
+
+    float m_delta_pos;
+    float m_delta_scale;
+    float m_delta_rot;
+
+    float m_rot_x = 0.0f;
+    float m_rot_y = 0.0f;
+
+    float m_light_rot_y = 0.0f;
+
+
+    float m_scale_cube = 1;
+    float m_forward = 0.0f;
+    float m_rightward = 0.0f;
+
+    bool cull = true;
+    Matrix4x4 m_world_cam;
+    Matrix4x4 m_view_cam;
+    Matrix4x4 m_proj_cam;
+
+    float m_time = 0.0f;
+    float m_light_radius = 4.0f;
+    float m_attenuation = 2.0f;
+    bool m_anim = false;
+
+    bool m_play_state = false;
+    bool m_fullscreen_state = false;
+
+    Vector4D m_light_position;
+};
+</code></pre>
+<p>AppWindow.cpp</p>
+<pre><code>#include &quot;AppWindow.h&quot;
+#include &lt;Windows.h&gt;
+#include &quot;Vector3D.h&quot;
+#include &quot;Vector2D.h&quot;
+#include &quot;Matrix4x4.h&quot;
+#include &quot;InputSystem.h&quot;
+#include &quot;Mesh.h&quot;
+struct vertex
+{
+    Vector3D position;
+    Vector2D texcoord;
+};
+
+
+__declspec(align(16))
+struct constant
+{
+    Matrix4x4 m_world;
+    Matrix4x4 m_view;
+    Matrix4x4 m_proj;
+    Vector4D m_light_direction;
+    Vector4D m_camera_position;
+    Vector4D m_light_position = Vector4D(0, 1, 0, 0);
+    float m_light_radius = 4.0f;
+    float m_time = 0.0f;
+
+};
+
+
+AppWindow::AppWindow()
+{
+}
+
+
+void AppWindow::render()
+{
+    //CLEAR THE RENDER TARGET 
+    GraphicsEngine::get()-&gt;getRenderSystem()-&gt;getImmediateDeviceContext()-&gt;clearRenderTargetColor(this-&gt;m_swap_chain,
+        0, 0.3f, 0.4f, 1);
+    //SET VIEWPORT OF RENDER TARGET IN WHICH WE HAVE TO DRAW
+    RECT rc = this-&gt;getClientWindowRect();
+    GraphicsEngine::get()-&gt;getRenderSystem()-&gt;getImmediateDeviceContext()-&gt;setViewportSize(rc.right - rc.left, rc.bottom - rc.top);
+
+
+
+    //COMPUTE TRANSFORM MATRICES
+    update();
+
+
+    updateModel(Vector3D(0, -1, 1), m_mat);
+    drawMesh(m_mesh, m_mat);
+
+
+    m_swap_chain-&gt;present(true);
+
+
+    m_old_delta = m_new_delta;
+    m_new_delta = ::GetTickCount();
+
+    m_delta_time = (m_old_delta) ? ((m_new_delta - m_old_delta) / 1000.0f) : 0;
+    m_time += m_delta_time;
+}
+
+void AppWindow::update()
+{
+    updateCamera();
+    updateLight();
+    updateSkyBox();
+}
+
+void AppWindow::updateModel(Vector3D position, const MaterialPtr&amp; material)
+{
+    constant cc;
+
+    Matrix4x4 m_light_rot_matrix;
+    m_light_rot_matrix.setIdentity();
+    m_light_rot_matrix.setRotationY(m_light_rot_y);
+
+    cc.m_world.setIdentity();
+    cc.m_world.setTranslation(position);
+    cc.m_view = m_view_cam;
+    cc.m_proj = m_proj_cam;
+    cc.m_camera_position = m_world_cam.getTranslation();
+
+    cc.m_light_position = m_light_position;
+
+    cc.m_light_radius = m_light_radius;
+    cc.m_light_direction = m_light_rot_matrix.getZDirection();
+    cc.m_time = m_time;
+
+    material-&gt;setData(&amp;cc, sizeof(constant));
+}
+
+void AppWindow::updateCamera()
+{
+    Matrix4x4 world_cam, temp;
+    world_cam.setIdentity();
+
+    temp.setIdentity();
+    temp.setRotationX(m_rot_x);
+    world_cam *= temp;
+
+    temp.setIdentity();
+    temp.setRotationY(m_rot_y);
+    world_cam *= temp;
+
+    Vector3D new_pos = m_world_cam.getTranslation() + world_cam.getZDirection() * (m_forward * 0.05f);
+
+    new_pos = new_pos + world_cam.getXDirection() * (m_rightward * 0.05f);
+
+    world_cam.setTranslation(new_pos);
+
+    m_world_cam = world_cam;
+
+    world_cam.inverse();
+
+    m_view_cam = world_cam;
+
+    int width = (this-&gt;getClientWindowRect().right - this-&gt;getClientWindowRect().left);
+    int height = (this-&gt;getClientWindowRect().bottom - this-&gt;getClientWindowRect().top);
+
+    m_proj_cam.setPerspectiveFovLH(1.57f, ((float)width / (float)height), 0.001f, 100.0f);
+}
+
+void AppWindow::updateSkyBox()
+{
+    constant cc;
+
+    cc.m_world.setIdentity();
+    cc.m_world.setScale(Vector3D(100.0f, 100.0f, 100.0f));
+    cc.m_world.setTranslation(m_world_cam.getTranslation());
+    cc.m_view = m_view_cam;
+    cc.m_proj = m_proj_cam;
+
+
+}
+
+void AppWindow::updateLight()
+{
+    m_light_rot_y += 1.57f * m_delta_time;
+
+    float dist_from_origin = 3.0f;
+
+    m_light_position = Vector4D(cos(m_light_rot_y) * dist_from_origin, 1.1f, sin(m_light_rot_y) * dist_from_origin, 1.0f);
+}
+
+void AppWindow::drawMesh(const MeshPtr&amp; mesh, MaterialPtr&amp; material)
+{
+    GraphicsEngine::get()-&gt;setMaterial(material);
+
+    //SET THE VERTICES OF THE TRIANGLE TO DRAW
+    GraphicsEngine::get()-&gt;getRenderSystem()-&gt;getImmediateDeviceContext()-&gt;setVertexBuffer(mesh-&gt;getVertexBuffer());
+    //SET THE INDICES OF THE TRIANGLE TO DRAW
+    GraphicsEngine::get()-&gt;getRenderSystem()-&gt;getImmediateDeviceContext()-&gt;setIndexBuffer(mesh-&gt;getIndexBuffer());
+
+    // FINALLY DRAW THE TRIANGLE
+    GraphicsEngine::get()-&gt;getRenderSystem()-&gt;getImmediateDeviceContext()-&gt;drawIndexedTriangleList(mesh-&gt;getIndexBuffer()-&gt;getSizeIndexList(), 0, 0);
+}
+
+
+AppWindow::~AppWindow()
+{
+}
+
+void AppWindow::onCreate()
+{
+    Window::onCreate();
+
+    InputSystem::get()-&gt;addListener(this);
+
+    m_play_state = true;
+    InputSystem::get()-&gt;showCursor(false);
+
+    m_wall_tex = GraphicsEngine::get()-&gt;getTextureManager()-&gt;createTextureFromFile(L&quot;..\\Assets\\Textures\\wall.jpg&quot;);
+
+    m_mesh = GraphicsEngine::get()-&gt;getMeshManager()-&gt;createMeshFromFile(L&quot;..\\Assets\\Meshes\\sphere.obj&quot;);
+
+    RECT rc = this-&gt;getClientWindowRect();
+    m_swap_chain = GraphicsEngine::get()-&gt;getRenderSystem()-&gt;createSwapChain(this-&gt;m_hwnd, rc.right - rc.left, rc.bottom - rc.top);
+
+    m_world_cam.setTranslation(Vector3D(0, 0, -1));
+
+    m_mat = GraphicsEngine::get()-&gt;createMaterial(L&quot;PointLightVertexShader.hlsl&quot;, L&quot;PointLightPixelShader.hlsl&quot;);
+    m_mat-&gt;addTexture(m_wall_tex);
+    m_mat-&gt;setCullMode(CULL_MODE_BACK);
+
+}
+
+void AppWindow::onUpdate()
+{
+    Window::onUpdate();
+    InputSystem::get()-&gt;update();
+    this-&gt;render();
+}
+
+void AppWindow::onDestroy()
+{
+    Window::onDestroy();
+    m_swap_chain-&gt;setFullscreen(false, 1, 1);
+}
+
+void AppWindow::onFocus()
+{
+    InputSystem::get()-&gt;addListener(this);
+}
+
+void AppWindow::onKillFocus()
+{
+    InputSystem::get()-&gt;removeListener(this);
+}
+
+void AppWindow::onSize()
+{
+    RECT rc = this-&gt;getClientWindowRect();
+    m_swap_chain-&gt;resize(rc.right, rc.bottom);
+    this-&gt;render();
+}
+
+void AppWindow::onKeyDown(int key)
+{
+    if (!m_play_state) return;
+
+    if (key == 'W')
+    {
+        //m_rot_x += 3.14f*m_delta_time;
+        m_forward = 1.0f;
+    }
+    else if (key == 'S')
+    {
+        //m_rot_x -= 3.14f*m_delta_time;
+        m_forward = -1.0f;
+    }
+    else if (key == 'A')
+    {
+        //m_rot_y += 3.14f*m_delta_time;
+        m_rightward = -1.0f;
+    }
+    else if (key == 'D')
+    {
+        //m_rot_y -= 3.14f*m_delta_time;
+        m_rightward = 1.0f;
+    }
+
+    else if (key == 'O')
+    {
+        m_light_radius = (m_light_radius &lt;= 0) ? 0.0f : m_light_radius - 1.0f * m_delta_time;
+    }
+    else if (key == 'P')
+    {
+        m_light_radius += 1.0f * m_delta_time;
+    }
+
+}
+
+void AppWindow::onKeyUp(int key)
+{
+    m_forward = 0.0f;
+    m_rightward = 0.0f;
+
+    if (key == 'G')
+    {
+        m_play_state = (m_play_state) ? false : true;
+        InputSystem::get()-&gt;showCursor(!m_play_state);
+    }
+    else if (key == 'F')
+    {
+        m_fullscreen_state = (m_fullscreen_state) ? false : true;
+        RECT size_screen = this-&gt;getSizeScreen();
+
+        m_swap_chain-&gt;setFullscreen(m_fullscreen_state, size_screen.right, size_screen.bottom);
+    }
+
+}
+
+void AppWindow::onMouseMove(const Point&amp; mouse_pos)
+{
+    if (!m_play_state) return;
+
+    int width = (this-&gt;getClientWindowRect().right - this-&gt;getClientWindowRect().left);
+    int height = (this-&gt;getClientWindowRect().bottom - this-&gt;getClientWindowRect().top);
+
+    m_rot_x += (mouse_pos.m_y - (height / 2.0f)) * m_delta_time * 0.1f;
+    m_rot_y += (mouse_pos.m_x - (width / 2.0f)) * m_delta_time * 0.1f;
+
+    InputSystem::get()-&gt;setCursorPosition(Point((int)(width / 2.0f), (int)(height / 2.0f)));
+}
+
+void AppWindow::onLeftMouseDown(const Point&amp; mouse_pos)
+{
+    m_scale_cube = 0.5f;
+}
+
+void AppWindow::onLeftMouseUp(const Point&amp; mouse_pos)
+{
+    m_scale_cube = 1.0f;
+}
+
+void AppWindow::onRightMouseDown(const Point&amp; mouse_pos)
+{
+    m_scale_cube = 2.0f;
+}
+
+void AppWindow::onRightMouseUp(const Point&amp; mouse_pos)
+{
+    m_scale_cube = 1.0f;
+}
+</code></pre>
+<p>And that's how you do it!</p>
+
+  <br>
+    
+
+    <br>
+</div>
+
+<footer class="col-md-12 wm-page-content">
+  <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a> using <a href="">Windmill Dark</a> theme by None (noraj).</p>
+</footer>
+
+</body>
+</html>
+<!--
+MkDocs version : 1.3.1
+Build Date UTC : 2022-09-07 18:17:34.482233+00:00
+-->
